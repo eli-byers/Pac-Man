@@ -1,0 +1,808 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<!-- <meta name="viewport" content="width=device-width, initial-scale=1.0"/> -->
+	<script src="jquery.min.js"></script>
+	<style>
+	canvas {
+		border:1px solid #d3d3d3;
+		position: absolute;
+		left: 0;
+		top: 50;
+	}
+
+	#map {
+		background-color: #000000;
+		z-index: 0;
+	}
+
+	#game{
+		z-index: 1;"
+	}
+
+
+
+	</style>
+</head>
+<body onload="startGame()">
+	<div style="position: relative;">
+		<canvas id="map"></canvas>
+		<canvas id="game"></canvas>
+	</div>
+	<br>
+	<p>Score: <span id="score">0</span></p>
+
+	<script>
+	"use strict";
+
+	var scoreSpan;
+	$( document ).ready(function() {
+		scoreSpan = $("#score");
+	});
+
+	var MapArray = [
+		[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+	    [0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0],
+	    [0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0],
+	    [0, 2, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 2, 0],
+	    [0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0],
+	    [0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0],
+	    [0, 1, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 1, 0],
+	    [0, 1, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 1, 0],
+	    [0, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 0],
+	    [0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 3, 0, 0, 3, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0],
+	    [0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 3, 0, 0, 3, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0],
+	    [0, 0, 0, 0, 0, 0, 1, 0, 0, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 0, 0, 1, 0, 0, 0, 0, 0, 0],
+	    [0, 0, 0, 0, 0, 0, 1, 0, 0, 3, 0, 0, 0, 5, 5, 0, 0, 0, 3, 0, 0, 1, 0, 0, 0, 0, 0, 0],
+	    [0, 0, 0, 0, 0, 0, 1, 0, 0, 3, 0, 3, 3, 3, 3, 3, 3, 0, 3, 0, 0, 1, 0, 0, 0, 0, 0, 0],
+	    [4, 3, 3, 3, 3, 3, 1, 3, 3, 3, 0, 3, 3, 3, 3, 3, 3, 0, 3, 3, 3, 1, 3, 3, 3, 3, 3, 4],
+	    [0, 0, 0, 0, 0, 0, 1, 0, 0, 3, 0, 3, 3, 3, 3, 3, 3, 0, 3, 0, 0, 1, 0, 0, 0, 0, 0, 0],
+	    [0, 0, 0, 0, 0, 0, 1, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 3, 0, 0, 1, 0, 0, 0, 0, 0, 0],
+	    [0, 0, 0, 0, 0, 0, 1, 0, 0, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 0, 0, 1, 0, 0, 0, 0, 0, 0],
+		[0, 0, 0, 0, 0, 0, 1, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 3, 0, 0, 1, 0, 0, 0, 0, 0, 0],
+		[0, 0, 0, 0, 0, 0, 1, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 3, 0, 0, 1, 0, 0, 0, 0, 0, 0],
+	    [0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0],
+	    [0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0],
+	    [0, 2, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 2, 0],
+	    [0, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 0],
+	    [0, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 0],
+	    [0, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 0],
+	    [0, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 0],
+	    [0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0],
+	    [0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0],
+	    [0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0],
+		[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+	];
+	var PathArray;
+	var PathMap;
+	var pillLocations = [];
+	var cellWidth = 20;
+	var score = 0;
+	var loss = false;
+	var draw = true;
+	var time = 0;
+	var step = 9;
+	var mrPacMan;
+	var DEBUG = false;
+
+	var mapScene = {
+		canvas : document.getElementById("map"),
+		render : function(){
+			this.canvas.width = cellWidth * MapArray[0].length;
+			this.canvas.height = cellWidth * MapArray.length;
+			this.context = this.canvas.getContext("2d");
+			document.body.insertBefore(this.canvas, document.body.childNodes[0]);
+			for (var i = 0; i < MapArray.length; i++){
+				for (var k = 0; k < MapArray[i].length; k++){
+					drawWall(i,k, this.context);
+
+					// get pixles
+					var x = k*cellWidth;
+					var y = i*cellWidth;
+
+					var ctx = this.context;
+					ctx.fillStyle = "white";
+					if(MapArray[i][k] == 1 && !DEBUG) {
+						var size = cellWidth/10;
+						ctx.beginPath();
+						ctx.arc(x+cellWidth/2,y+cellWidth/2,size,0,Math.PI*2,true);
+						ctx.closePath();
+						ctx.fill();
+					} else if (MapArray[i][k] == 5){
+						ctx.fillRect(x, y+cellWidth/2-1, cellWidth, cellWidth/6);
+					}
+				}
+			}
+		},
+		coverDot : function(r,c){
+			// get pixles
+			var x = c*cellWidth;
+			var y = r*cellWidth;
+
+			var ctx = this.context;
+			ctx.fillStyle = "#000000";
+			ctx.beginPath();
+			ctx.arc(x+cellWidth/2,y+cellWidth/2,cellWidth/4,0,Math.PI*2,true);
+			ctx.closePath();
+			ctx.fill();
+		}
+	}
+
+	var scene = {
+		canvas: document.getElementById("game"),
+		components: [],
+		ghosts: [],
+		keys: [],
+		start : function () {
+			this.canvas.width = cellWidth * MapArray[0].length;
+			this.canvas.height = cellWidth * MapArray.length;
+			this.context = this.canvas.getContext("2d");
+			document.body.insertBefore(this.canvas, document.body.childNodes[0]);
+			this.interval = setInterval(updateGameArea, 20);
+			window.addEventListener('keydown', function(e){
+				scene.keys = (scene.keys || []);
+				scene.keys[e.keyCode] = true;
+			});
+			window.addEventListener('keyup', function(e){
+				scene.keys[e.keyCode] = false;
+			});
+		},
+		clear : function () {
+			this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+		}
+	}
+
+	function startGame(){
+		for (var i = 0; i < MapArray.length; i++){
+			for (var k = 0; k < MapArray[i].length; k++){
+				if(MapArray[i][k] == 2) {
+					pillLocations.push([i,k]);
+				}
+			}
+		}
+		PathArray = makePathArray(MapArray);
+		mapScene.render();
+		scene.start();
+		scene.components.push(new pillMap());
+		mrPacMan = new pacMan(cellWidth);
+		scene.components.push(mrPacMan);
+		scene.ghosts.push(new ghost("red", 14, 11, "left", "follow"));
+		scene.ghosts.push(new ghost("cyan", 11, 14, "up", "bounce"));
+		scene.ghosts.push(new ghost("pink", 13, 14, "down", "bounce"));
+		scene.ghosts.push(new ghost("orange", 15, 14, "up", "bounce"));
+	}
+
+	function updateGameArea(){
+		time += 1/60;
+		scene.clear();
+		if (scene.keys){
+			if (scene.keys[37]){
+				if (canMove("left", mrPacMan)){ mrPacMan.direction = "left"; }
+			} else if (scene.keys[39]){
+				if (canMove("right", mrPacMan)){ mrPacMan.direction = "right"; }
+			} else if (scene.keys[38]){
+				if (canMove("up", mrPacMan)){ mrPacMan.direction = "up"; }
+			} else if (scene.keys[40]){
+				if (canMove("down", mrPacMan)){ mrPacMan.direction = "down"; }
+			}
+		}
+		for (var i = scene.components.length-1; i >= 0; i--){ scene.components[i].update(); }
+		for (var i = scene.ghosts.length-1; i >= 0; i--){ scene.ghosts[i].update(); }
+		step = step == 10? 0 : step+1;
+
+		// path finding debug
+		if (DEBUG){
+			for (var i in PathMap){
+				for (var k in PathMap[i]){
+					var ctx = scene.context;
+					ctx.fillStyle = 'teal';
+					ctx.font = "10px Arial";
+					var y = (i * cellWidth)+cellWidth/2;
+					var x = (k * cellWidth)+cellWidth/5;
+					if (PathMap[i][k]  !== 1000 ){
+						ctx.fillText(PathMap[i][k]+"",x,y);
+					}
+				}
+			}
+		}
+	}
+
+	function nextRound(){
+		if (mrPacMan.lives-- > 0){
+			mrPacMan.init();
+			for (var i in scene.ghosts){
+				scene.ghosts[i].init();
+			}
+			loss = false;
+			draw = true;
+		} else {
+			console.log("game over");
+		}
+	}
+
+	function pillMap(){
+		this.update = function(){
+			if (!DEBUG){
+				for (var i = 0; i < pillLocations.length; i++){
+					var y = pillLocations[i][0]*cellWidth+cellWidth/2;
+					var x = pillLocations[i][1]*cellWidth+cellWidth/2;
+					var size = cellWidth/9 + 2 + Math.sin(time * 15);
+					var ctx = scene.context;
+					ctx.fillStyle = "white";
+					ctx.beginPath();
+					ctx.arc(x,y,size,0,Math.PI*2,true);
+					ctx.closePath();
+					ctx.fill();
+				}
+			}
+		}
+	}
+
+	//===============================
+	//
+	//			CLASSES
+	//
+	//===============================
+
+	function pacMan (size) {
+		this.width = cellWidth - 4;
+		this.height = cellWidth - 4;
+		this.cellCol = 13;
+		this.cellRow = 23;
+		this.x = this.cellCol * cellWidth + (cellWidth)/2;
+		this.y = this.cellRow * cellWidth + (cellWidth)/2;
+		this.startX = this.x;
+		this.startY = this.y;
+		this.direction = "left";
+		this.rotation = 0;
+		this.mouthSize = 0.5;
+		this.pop = false
+		this.deathInterval;
+		this.lives = 3;
+		this.speed = 7;
+		this.step = this.speed-1;
+		this.init = function(){
+			this.width = this.height;
+			this.cellCol = 13;
+			this.cellRow = 23;
+			this.x = this.cellCol * cellWidth + (cellWidth)/2;
+			this.y = this.cellRow * cellWidth + (cellWidth)/2;
+			this.startX = this.x;
+			this.startY = this.y;
+			this.direction = "left";
+			this.rotation = 0;
+			this.mouthSize = 0.5;
+			this.pop = false;
+		}
+		this.update = function(){
+			if (!loss){
+				this.checkCollisoin();
+
+				if (this.step == this.speed){
+					if(this.direction !== ""){
+						this.scoreCell();
+						mapScene.coverDot(this.cellRow, this.cellCol);
+						for (var i = 0; i < pillLocations.length; i++){
+							if (pillLocations[i][0] == this.cellRow && pillLocations[i][1] == this.cellCol){
+								pillLocations.splice(i, 1);
+							}
+						}
+					}
+
+					switch (this.direction) {
+						case "right": if (canMove("right", this)){
+								this.cellCol++;
+								teleport(this);
+							} else { this.direction = ""} break;
+						case "left": if (canMove("left", this)){
+								this.cellCol--;
+								teleport(this);
+							} else { this.direction = ""} break;
+						case "up":
+							if (canMove("up", this)){ this.cellRow--; }
+							else { this.direction = ""} break;
+						case "down":
+							if (canMove("down", this)){ this.cellRow++;}
+							else { this.direction = ""} break;
+						default: break;
+					}
+
+					// set current position
+					this.startX = this.x;
+					this.startY = this.y;
+				} else {
+					// update current postino based off next cell
+					var x = this.cellCol * cellWidth + (cellWidth)/2;
+					var y = this.cellRow * cellWidth + (cellWidth)/2;
+					this.x = this.startX + (x - this.startX)*(this.step/(this.speed-1));
+					this.y = this.startY + (y - this.startY)*(this.step/(this.speed-1));
+				}
+
+				// stop waka wakaing when stopped
+
+				if (this.direction !== ""){ this.mouthSize = Math.sin(time * 25); }
+				else { this.mouthSize = 0.6; }
+			}
+
+			// set rotation
+			switch (this.direction) {
+				case "right": this.rotation = 0; break;
+				case "down": this.rotation = Math.PI/2; break;
+				case "left": this.rotation = Math.PI; break;
+				case "up": this.rotation = Math.PI * 1.5; break;
+				default: break;
+			}
+			this.draw();
+			this.step = this.step == this.speed? 0 : this.step+1;
+		},
+		this.draw = function(){
+			var ctx = scene.context;
+			if (!this.pop){
+				ctx.fillStyle = "yellow";
+				ctx.beginPath();
+				ctx.arc(this.x,this.y,this.width,this.mouthSize+this.rotation,((Math.PI*2)-this.mouthSize)+this.rotation);
+				ctx.lineTo(this.x,this.y);
+				ctx.closePath();
+				ctx.fill();
+			} else {
+				ctx.strokeStyle = "silver";
+				ctx.lineWidth = 4;
+				ctx.beginPath();
+				ctx.arc(this.x,this.y,this.width,0,Math.PI*2);
+				ctx.stroke();
+			}
+		}
+		this.die = function(){
+			var cur = this;
+			var pops = 0;
+			cur.direction = "up";
+			cur.mouthSize = 0;
+			cur.deathInterval = setInterval(function(){
+				if (cur.mouthSize < Math.PI - 0.1){
+					cur.mouthSize += 0.1;
+				} else {
+					cur.mouthSize = Math.PI;
+					clearInterval(cur.deathInterval);
+					cur.pop = true
+					cur.width = 0
+					cur.deathInterval = setInterval(function(){
+						cur.width += 4
+						if (cur.width > cellWidth - 4){
+							cur.width = 0
+							pops++
+						}
+						if (pops == 2){
+							clearInterval(cur.deathInterval);
+							setTimeout(nextRound(), 500);
+						}
+					}, 35)
+				}
+			}, 30);
+		}
+		this.checkCollisoin = function(){
+			if (!loss){
+				for (var i in scene.ghosts){
+					if (scene.ghosts[i].action == "follow" || scene.ghosts[i].action == "flee"){
+						var x1 = mrPacMan.x
+						var y1 = mrPacMan.y
+						var x2 = scene.ghosts[i].x
+						var y2 = scene.ghosts[i].y
+						var distance = Math.sqrt( (x1-x2)*(x1-x2) + (y1-y2)*(y1-y2) );
+
+						if (distance <= mrPacMan.width*2) {
+							if (scene.ghosts[i].action == "follow"){
+								loss = true;
+								var cur = this;
+								setTimeout(function(){
+									draw = false;
+									cur.die();
+								}, 400);
+							} else {
+								scene.ghosts[i].action = "home";
+								// add points
+								//
+								//===========
+							}
+						}
+					}
+				}
+			}
+		}
+		this.scoreCell = function(){
+			var fleeTimeout;
+			if(MapArray[mrPacMan.cellRow][mrPacMan.cellCol] == 1){
+				MapArray[mrPacMan.cellRow][mrPacMan.cellCol] = 3;
+				score += 10;
+			}
+			if(MapArray[mrPacMan.cellRow][mrPacMan.cellCol] == 2){
+				MapArray[mrPacMan.cellRow][mrPacMan.cellCol] = 3;
+				score += 50;
+				clearTimeout(fleeTimeout);// not working
+				for (var i in scene.ghosts){
+					if (scene.ghosts[i].action == "follow"){
+						scene.ghosts[i].action = "flee"; }
+					}
+				fleeTimeout = setTimeout(function(){
+					for (var i in scene.ghosts){
+						if (scene.ghosts[i].action == "flee"){
+							scene.ghosts[i].action = "follow";
+						}
+					}
+				}, 10 * 1000);
+			}
+			scoreSpan.text(score);
+		}
+	}
+
+	function ghost(color, cellX, cellY, direction, action){
+		this.color = color;
+		this.width = cellWidth-5;
+		this.height = cellWidth-3;
+		this.cellRow = cellY;
+		this.cellCol = cellX;
+		this.startRow = cellY;
+		this.startCol = cellX;
+		this.x = cellY * cellWidth + (cellWidth)/2;
+		this.y = cellY * cellWidth + (cellWidth)/2;
+		this.startX = this.x;
+		this.startY = this.y;
+		this.direction = direction;
+		this.action = action;
+		this.init = function(){
+			this.cellRow = this.startRow;
+			this.cellCol = this.startCol;
+			this.x = this.startRow * cellWidth + (cellWidth)/2;
+			this.y = this.startCol * cellWidth + (cellWidth)/2;
+			this.startX = this.x;
+			this.startY = this.y;
+			if (this.color == "red"){
+				this.action = "follow";
+				this.direction = "left";
+			} else {
+				this.action = "bounce";
+				if (this.color == "pink"){
+					this.direction = "up";
+				} else {
+					this.direction = "down";
+				}
+			}
+		}
+		this.draw = function(){
+			var ctx = scene.context;
+			// color
+			if (this.action == "flee"){ ctx.fillStyle = "blue"; }
+			else { ctx.fillStyle = this.color; }
+			// body
+			if (this.action != "home"){
+				ctx.beginPath();
+				ctx.arc(this.x,this.y,this.width,Math.PI,Math.PI*2);
+				if (step < 5){
+					ctx.lineTo(this.x+this.width,this.y+this.height);
+					ctx.lineTo(this.x+((this.width/2)+2),this.y+this.height-5);
+					ctx.lineTo(this.x+5,this.y+this.height);
+					ctx.lineTo(this.x+2,this.y+this.height);
+					ctx.lineTo(this.x+2,this.y+this.height-5);
+					ctx.lineTo(this.x-2,this.y+this.height-5);
+					ctx.lineTo(this.x-2,this.y+this.height);
+					ctx.lineTo(this.x-5,this.y+this.height);
+					ctx.lineTo(this.x-((this.width/2)+2),this.y+this.height-5);
+					ctx.lineTo(this.x-this.width,this.y+this.height);
+				}
+				else {
+					ctx.lineTo(this.x+this.width,this.y+this.height-3);
+					ctx.lineTo(this.x+((this.width/2)+3),this.y+this.height);
+					ctx.lineTo(this.x+5,this.y+this.height-5);
+					ctx.lineTo(this.x,this.y+this.height);
+					ctx.lineTo(this.x-5,this.y+this.height-5);
+					ctx.lineTo(this.x-((this.width/2)+3),this.y+this.height);
+					ctx.lineTo(this.x-this.width,this.y+this.height-3);
+				}
+				ctx.closePath();
+				ctx.fill();
+			}
+			// eye offset
+			var xOff = 0, yOff = 0;
+			switch (this.direction){
+				case "down": xOff = 0; yOff = 3; break;
+				case "up": xOff = 0; yOff = -3; break;
+				case "left": xOff = -2; yOff = 1; break;
+				case "right": xOff = 2; yOff = 1; break;
+				default: break;
+			}
+			// eyes
+			if (this.action != "flee"){
+				// left
+				ctx.fillStyle = "white";
+				ctx.beginPath();
+				ctx.arc(this.x-6+xOff,this.y-3+yOff,this.width/4,0,Math.PI*2);
+				ctx.arc(this.x-6+xOff,this.y-5+yOff,this.width/4,Math.PI*2,0);
+				ctx.closePath();
+				ctx.fill();
+				// right
+				ctx.beginPath();
+				ctx.arc(this.x+6+xOff,this.y-3+yOff,this.width/4,0,Math.PI*2);
+				ctx.arc(this.x+6+xOff,this.y-5+yOff,this.width/4,Math.PI*2,0);
+				ctx.closePath();
+				ctx.fill();
+				// pupils
+				ctx.fillStyle = "DarkBlue";
+				ctx.beginPath();
+				ctx.arc(this.x-6+(xOff*2),this.y-4+(yOff*2),this.width/7,0,Math.PI*2);
+				ctx.arc(this.x+6+(xOff*2),this.y-4+(yOff*2),this.width/7,0,Math.PI*2);
+				ctx.closePath();
+				ctx.fill();
+			} else {
+				// eyes
+				ctx.fillStyle = "white";
+				ctx.fillRect(this.x-(this.width/2), this.y-6, this.width/3.5, this.width/3.5);
+				ctx.fillRect(this.x+(this.width/4), this.y-6, this.width/3.5, this.width/3.5);
+				// mouth
+				ctx.strokeStyle = "white";
+				ctx.lineWidth = 2;
+				ctx.beginPath();
+				var gap = this.width/5
+				ctx.moveTo(this.x-gap*3, this.y+7);
+				ctx.lineTo(this.x-gap*2, this.y+4);
+				ctx.lineTo(this.x-gap, this.y+7);
+				ctx.lineTo(this.x, this.y+4);
+				ctx.lineTo(this.x+gap, this.y+7);
+				ctx.lineTo(this.x+gap*2, this.y+4);
+				ctx.lineTo(this.x+gap*3, this.y+7);
+				ctx.stroke();
+			}
+
+		}
+		this.update = function(){
+			if (step == 10 && !loss){
+				this.direction = this.route();
+
+				switch (this.direction) {
+					case "right": this.cellCol++; teleport(this); break;
+					case "left": this.cellCol--; teleport(this); break;
+					case "up": this.cellRow--; break;
+					case "down": this.cellRow++; break;
+					default: break;
+				}
+				// set current position
+				this.startX = this.x;
+				this.startY = this.y;
+			} else if (!loss) {
+				var xOffset = cellWidth/2
+				var yOffset = cellWidth/2
+				if (this.action == "bounce"){ xOffset += cellWidth/2; }
+
+				// update current position based off next cell
+				var x = this.cellCol * cellWidth + xOffset;
+				var y = this.cellRow * cellWidth + yOffset;
+				this.x = this.startX + (x - this.startX)*(step/9);
+				this.y = this.startY + (y - this.startY)*(step/9);
+			}
+
+			if (draw) { this.draw(); }
+		},
+		this.route = function(){
+			if (this.action == "bounce"){
+				if (this.direction == "up" && !canMove("up", this)){ return "down"; }
+				if (this.direction == "down" && !canMove("down", this)){ return "up"; }
+			} else {
+				return getNextCell(this, this.action);
+			}
+			return this.direction
+		}
+	}
+
+	//===============================
+	//
+	// 			PATH FINDING
+	//
+	//===============================
+	function getNextCell(ghost, action){
+		PathMap = [];
+		for (var i in PathArray){
+			PathMap[i] = PathArray[i].slice(0);
+		}
+		var targetRow, targetCol;
+		if (action == "home"){
+			targetRow = 11; targetCol = 14;
+		} else {
+			// add checks for ghost color
+			//
+			//============================
+			targetRow = mrPacMan.cellRow; targetCol = mrPacMan.cellCol;
+		}
+
+		makePath(targetRow, targetCol);
+		return pickBestPath(ghost);
+	}
+
+	function pickBestPath(ghost){
+		var row = ghost.cellRow;
+		var col = ghost.cellCol;
+		var bestCell, ret;
+		switch (ghost.action) {
+			case "home": console.log("home");
+			case "follow":
+				bestCell = 1000;
+				if (PathMap[row-1][col] < bestCell){
+					ret = "up"; bestCell = PathMap[row-1][col];
+				}  if (PathMap[row][col+1] < bestCell){
+					ret =  "right"; bestCell = PathMap[row][col+1];
+				} if (PathMap[row+1][col] < bestCell){
+					ret =  "down"; bestCell = PathMap[row+1][col];
+				} if (PathMap[row][col-1] < bestCell){
+					ret =  "left"; bestCell = PathMap[row][col-1];
+				} break;
+			case "flee":
+				bestCell = 0;
+				if (PathMap[row-1][col] < 1000 &&
+					PathMap[row-1][col] > bestCell &&
+					ghost.direction != "down"
+				){ ret = "up"; bestCell = PathMap[row-1][col]; }
+				if (PathMap[row][col+1] < 1000 &&
+					PathMap[row][col+1] > bestCell &&
+					ghost.direction != "left"
+				){ ret =  "right"; bestCell = PathMap[row][col+1]; }
+				if (PathMap[row+1][col] < 1000 &&
+					PathMap[row+1][col] > bestCell &&
+					ghost.direction != "up"
+				){ ret =  "down"; bestCell = PathMap[row+1][col]; }
+				if (PathMap[row][col-1] < 1000 &&
+					PathMap[row][col-1] > bestCell &&
+					ghost.direction != "right"
+				){ ret =  "left"; bestCell = PathMap[row][col-1]; }
+				break;
+			default:
+		}
+		return ret;
+	}
+
+	function makePath(row, col, n){
+		if (
+			PathMap[row][col] == 1000 ||
+			n > PathMap[row][col] && PathMap[row][col] != null
+		){ return PathMap; }
+
+		PathMap[row][col] = n = (n == undefined ? 0 : n);
+		makePath(row, col-1, n+1);
+		makePath(row, col+1, n+1);
+		makePath(row-1, col, n+1);
+		makePath(row+1, col, n+1);
+		return PathMap;
+	}
+
+	function canStep(row, col){
+		if (PathMap[row][col] == null){ return true; }
+		return false;
+	}
+
+	// make path template
+	function makePathArray(inArray){
+		var pathArray = [];
+		for (var i in inArray){
+			pathArray.push(inArray[i].slice(0))
+		}
+		for (var r in pathArray){
+			for (var c in pathArray[r]){
+				var val;
+				switch(pathArray[r][c]){
+					case 1:
+					case 2:
+					case 3: val = null; break;
+					case 0:
+					case 4:
+					case 5: val = 1000; break;
+					default: break;
+				}
+				pathArray[r][c] = val;
+			}
+		}
+		return pathArray;
+	}
+
+	//===============================
+	//
+	//			DRAW WALLS
+	//
+	//===============================
+	function getCell(r,c){
+		if (c < 0 || c >= MapArray[0].length){ return 0; }
+		if (r < 0 || r >= MapArray.length){ return 0; }
+		if (MapArray[r][c] == 5){ return 0; }
+		return MapArray[r][c];
+	}
+
+	function drawWall(r,c, ctx){
+
+		if (getCell(r,c) == 4){ return; }
+
+		var cornerCase = 0;
+		if (getCell(r-1,c-1) === 0 ){ cornerCase += 1; }
+		if (getCell(r-1,c  ) === 0 ){ cornerCase += 2; }
+		if (getCell(r  ,c  ) === 0 ){ cornerCase += 4; }
+		if (getCell(r  ,c-1) === 0 ){ cornerCase += 8; }
+
+		var straightCase = 0;
+		if (getCell(r-1,c  ) === 0 ){ straightCase += 1; }
+		if (getCell(r  ,c+1) === 0 ){ straightCase += 2; }
+		if (getCell(r+1,c  ) === 0 ){ straightCase += 4; }
+		if (getCell(r  ,c-1) === 0 ){ straightCase += 8; }
+
+		ctx.strokeStyle = "#5757FF";
+		ctx.lineWidth = 3;
+		ctx.beginPath();
+		switch (cornerCase) {
+			// down/right
+			case 4: ctx.arc(c*cellWidth+cellWidth,r*cellWidth+cellWidth,cellWidth/2,Math.PI,Math.PI*1.5); break;
+			case 11: ctx.arc(c*cellWidth,r*cellWidth,cellWidth/2,Math.PI,Math.PI*1.5); break;
+			// up/right
+			case 2: ctx.arc(c*cellWidth+cellWidth,r*cellWidth-cellWidth,cellWidth/2,Math.PI*0.5,Math.PI); break;
+			case 13: ctx.arc(c*cellWidth,r*cellWidth,cellWidth/2,Math.PI*0.5,Math.PI); break;
+			// down/left
+			case 8: ctx.arc(c*cellWidth-cellWidth,r*cellWidth+cellWidth,cellWidth/2,Math.PI*1.5,Math.PI*2); break;
+			case 7: ctx.arc(c*cellWidth,r*cellWidth,cellWidth/2,Math.PI*1.5,Math.PI*2); break;
+			// up/left
+			case 1: ctx.arc(c*cellWidth-cellWidth,r*cellWidth-cellWidth,cellWidth/2,0,Math.PI*0.5); break;
+			case 14: ctx.arc(c*cellWidth,r*cellWidth,cellWidth/2,0,Math.PI*0.5); break;
+			default: break;
+		}
+
+		switch(straightCase){
+			case 11: case 14:
+				ctx.moveTo(c*cellWidth,r*cellWidth+cellWidth/2);
+				ctx.lineTo(c*cellWidth+cellWidth,r*cellWidth+cellWidth/2);
+				break;
+			case 13: case 7:
+				ctx.moveTo(c*cellWidth+cellWidth/2,r*cellWidth);
+				ctx.lineTo(c*cellWidth+cellWidth/2,r*cellWidth+cellWidth);
+				break;
+			case 10: if (MapArray[r][c] === 0){
+					ctx.moveTo(c*cellWidth,r*cellWidth+cellWidth/2);
+					ctx.lineTo(c*cellWidth+cellWidth,r*cellWidth+cellWidth/2);
+				} break;
+			case 5: if (MapArray[r][c] === 0){
+					ctx.moveTo(c*cellWidth+cellWidth/2,r*cellWidth);
+					ctx.lineTo(c*cellWidth+cellWidth/2,r*cellWidth+cellWidth);
+				} break;
+			default: break;
+		}
+		ctx.stroke();
+	}
+
+	//===============================
+	//
+	// 			MOVEMENT
+	//
+	//===============================
+	function canMove(direction, someone){
+		var colOff = 0;
+		var rowOff = 0;
+		switch (direction) {
+			case "right": colOff = 1; break;
+			case "left": colOff = -1; break;
+			case "up": rowOff = -1; break;
+			case "down": rowOff = 1; break;
+			default: break;
+		}
+		if (MapArray[someone.cellRow+rowOff][someone.cellCol+colOff] !== 0 &&
+			MapArray[someone.cellRow+rowOff][someone.cellCol+colOff] !== 5 ){
+			return true;
+		}
+		return false;
+	}
+
+	function teleport(someone){
+		if (someone.cellCol == -2 || someone.cellCol == MapArray[0].length+1){
+			if (someone.cellCol == -2){
+				someone.cellCol = MapArray[0].length-1;
+				someone.x = (someone.cellCol+2) * cellWidth + (cellWidth)/2;
+			} else {
+				someone.cellCol = 0;
+				someone.x = (someone.cellCol-2) * cellWidth + (cellWidth)/2;
+			}
+		}
+	}
+
+	</script>
+
+</body>
+</html>
