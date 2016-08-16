@@ -4,41 +4,35 @@
 	<!-- <meta name="viewport" content="width=device-width, initial-scale=1.0"/> -->
 	<script src="jquery.min.js"></script>
 	<style>
+
+	body {
+		background-color: black;
+		padding: 15px 0 0 0;
+		text-align: center;
+	}
+
 	canvas {
-		border:1px solid #d3d3d3;
 		position: absolute;
-		left: 0;
-		top: 50;
+		top: 180px;
 	}
 
-	#map {
-		background-color: #000000;
-		z-index: 0;
-	}
-
-	#game{
-		z-index: 1;"
-	}
+	#logo { width: 560px; }
+	#map { z-index: 0; }
+	#game { z-index: 1; }
 
 
 
 	</style>
 </head>
 <body onload="startGame()">
+	<img id="logo" src="logo.png" alt="" />
 	<div style="position: relative;">
 		<canvas id="map"></canvas>
 		<canvas id="game"></canvas>
 	</div>
-	<br>
-	<p>Score: <span id="score">0</span></p>
 
 	<script>
 	"use strict";
-
-	var scoreSpan;
-	$( document ).ready(function() {
-		scoreSpan = $("#score");
-	});
 
 	var MapArray = [
 		[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -59,8 +53,8 @@
 	    [0, 0, 0, 0, 0, 0, 1, 0, 0, 3, 0, 3, 3, 3, 3, 3, 3, 0, 3, 0, 0, 1, 0, 0, 0, 0, 0, 0],
 	    [0, 0, 0, 0, 0, 0, 1, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 3, 0, 0, 1, 0, 0, 0, 0, 0, 0],
 	    [0, 0, 0, 0, 0, 0, 1, 0, 0, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 0, 0, 1, 0, 0, 0, 0, 0, 0],
-		[0, 0, 0, 0, 0, 0, 1, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 3, 0, 0, 1, 0, 0, 0, 0, 0, 0],
-		[0, 0, 0, 0, 0, 0, 1, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 3, 0, 0, 1, 0, 0, 0, 0, 0, 0],
+		  [0, 0, 0, 0, 0, 0, 1, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 3, 0, 0, 1, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 1, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 3, 0, 0, 1, 0, 0, 0, 0, 0, 0],
 	    [0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0],
 	    [0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0],
 	    [0, 2, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 2, 0],
@@ -73,10 +67,16 @@
 	    [0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0],
 		[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 	];
+	var cellWidth = 20;
+
+	$( document ).ready(function() {
+		// $("#map").css('left', $("#map").width()/2)
+		// $("#game").css('left', $("#game").width()/2)
+	});
+
 	var PathArray;
 	var PathMap;
 	var pillLocations = [];
-	var cellWidth = 20;
 	var score = 0;
 	var loss = false;
 	var draw = true;
@@ -409,7 +409,6 @@
 			}
 		}
 		this.scoreCell = function(){
-			var fleeTimeout;
 			if(MapArray[mrPacMan.cellRow][mrPacMan.cellCol] == 1){
 				MapArray[mrPacMan.cellRow][mrPacMan.cellCol] = 3;
 				score += 10;
@@ -417,12 +416,12 @@
 			if(MapArray[mrPacMan.cellRow][mrPacMan.cellCol] == 2){
 				MapArray[mrPacMan.cellRow][mrPacMan.cellCol] = 3;
 				score += 50;
-				clearTimeout(fleeTimeout);// not working
+				clearTimeout(this.fleeTimeout);// not working
 				for (var i in scene.ghosts){
 					if (scene.ghosts[i].action == "follow"){
 						scene.ghosts[i].action = "flee"; }
 					}
-				fleeTimeout = setTimeout(function(){
+				this.fleeTimeout = setTimeout(function(){
 					for (var i in scene.ghosts){
 						if (scene.ghosts[i].action == "flee"){
 							scene.ghosts[i].action = "follow";
@@ -430,7 +429,9 @@
 					}
 				}, 10 * 1000);
 			}
-			scoreSpan.text(score);
+			// update score
+			//
+			//============
 		}
 	}
 
@@ -620,7 +621,7 @@
 		var col = ghost.cellCol;
 		var bestCell, ret;
 		switch (ghost.action) {
-			case "home": console.log("home");
+			case "home":
 			case "follow":
 				bestCell = 1000;
 				if (PathMap[row-1][col] < bestCell){
@@ -670,7 +671,7 @@
 		return PathMap;
 	}
 
-	function canStep(row, col){
+	function canStep(row, col){ // remove
 		if (PathMap[row][col] == null){ return true; }
 		return false;
 	}
@@ -727,7 +728,7 @@
 		if (getCell(r+1,c  ) === 0 ){ straightCase += 4; }
 		if (getCell(r  ,c-1) === 0 ){ straightCase += 8; }
 
-		ctx.strokeStyle = "#5757FF";
+		ctx.strokeStyle = "#0404e2";
 		ctx.lineWidth = 3;
 		ctx.beginPath();
 		switch (cornerCase) {
