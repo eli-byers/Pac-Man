@@ -20,8 +20,6 @@
 	#map { z-index: 0; }
 	#game { z-index: 1; }
 
-
-
 	</style>
 </head>
 <body onload="startGame()">
@@ -34,98 +32,250 @@
 	<script>
 	"use strict";
 
-	var MapArray = [
-		[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-	    [0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0],
-	    [0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0],
-	    [0, 2, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 2, 0],
-	    [0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0],
-	    [0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0],
-	    [0, 1, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 1, 0],
-	    [0, 1, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 1, 0],
-	    [0, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 0],
-	    [0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 3, 0, 0, 3, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0],
-	    [0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 3, 0, 0, 3, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0],
-	    [0, 0, 0, 0, 0, 0, 1, 0, 0, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 0, 0, 1, 0, 0, 0, 0, 0, 0],
-	    [0, 0, 0, 0, 0, 0, 1, 0, 0, 3, 0, 0, 0, 5, 5, 0, 0, 0, 3, 0, 0, 1, 0, 0, 0, 0, 0, 0],
-	    [0, 0, 0, 0, 0, 0, 1, 0, 0, 3, 0, 3, 3, 3, 3, 3, 3, 0, 3, 0, 0, 1, 0, 0, 0, 0, 0, 0],
-	    [4, 3, 3, 3, 3, 3, 1, 3, 3, 3, 0, 3, 3, 3, 3, 3, 3, 0, 3, 3, 3, 1, 3, 3, 3, 3, 3, 4],
-	    [0, 0, 0, 0, 0, 0, 1, 0, 0, 3, 0, 3, 3, 3, 3, 3, 3, 0, 3, 0, 0, 1, 0, 0, 0, 0, 0, 0],
-	    [0, 0, 0, 0, 0, 0, 1, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 3, 0, 0, 1, 0, 0, 0, 0, 0, 0],
-	    [0, 0, 0, 0, 0, 0, 1, 0, 0, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 0, 0, 1, 0, 0, 0, 0, 0, 0],
-		  [0, 0, 0, 0, 0, 0, 1, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 3, 0, 0, 1, 0, 0, 0, 0, 0, 0],
-      [0, 0, 0, 0, 0, 0, 1, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 3, 0, 0, 1, 0, 0, 0, 0, 0, 0],
-	    [0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0],
-	    [0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0],
-	    [0, 2, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 2, 0],
-	    [0, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 0],
-	    [0, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 0],
-	    [0, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 0],
-	    [0, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 0],
-	    [0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0],
-	    [0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0],
-	    [0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0],
-		[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-	];
-	var cellWidth = 20;
 
-	$( document ).ready(function() {
-		// $("#map").css('left', $("#map").width()/2)
-		// $("#game").css('left', $("#game").width()/2)
-	});
-
-	var PathArray;
-	var PathMap;
-	var pillLocations = [];
-	var score = 0;
-	var loss = false;
-	var draw = true;
-	var time = 0;
-	var step = 9;
+  var game;
 	var mrPacMan;
-	var DEBUG = false;
 
-	var mapScene = {
+	var map = {
 		canvas : document.getElementById("map"),
-		render : function(){
-			this.canvas.width = cellWidth * MapArray[0].length;
-			this.canvas.height = cellWidth * MapArray.length;
+    // array : [
+    //   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    //   [0, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 0, 0, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 0],
+    //   [0, 3, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 3, 0, 0, 3, 0, 0, 0, 0, 0, 3, 0, 0, 0, 0, 3, 0],
+    //   [0, 3, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 3, 0, 0, 3, 0, 0, 0, 0, 0, 3, 0, 0, 0, 0, 3, 0],
+    //   [0, 3, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 3, 0, 0, 3, 0, 0, 0, 0, 0, 3, 0, 0, 0, 0, 3, 0],
+    //   [0, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 0],
+    //   [0, 3, 0, 0, 0, 0, 3, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 3, 0, 0, 3, 0, 0, 0, 0, 3, 0],
+    //   [0, 3, 0, 0, 0, 0, 3, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 3, 0, 0, 3, 0, 0, 0, 0, 3, 0],
+    //   [0, 3, 3, 3, 3, 3, 3, 0, 0, 3, 3, 3, 3, 0, 0, 3, 3, 3, 3, 0, 0, 3, 3, 3, 3, 3, 3, 0],
+    //   [0, 0, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 3, 0, 0, 3, 0, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 0],
+    //   [0, 0, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 3, 0, 0, 3, 0, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 0],
+    //   [0, 0, 0, 0, 0, 0, 3, 0, 0, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 0, 0, 3, 0, 0, 0, 0, 0, 0],
+    //   [0, 0, 0, 0, 0, 0, 3, 0, 0, 3, 0, 0, 0, 5, 5, 0, 0, 0, 3, 0, 0, 3, 0, 0, 0, 0, 0, 0],
+    //   [0, 0, 0, 0, 0, 0, 3, 0, 0, 3, 0, 3, 3, 3, 3, 3, 3, 0, 3, 0, 0, 3, 0, 0, 0, 0, 0, 0],
+    //   [4, 3, 3, 3, 3, 3, 3, 3, 3, 3, 0, 3, 3, 3, 3, 3, 3, 0, 3, 3, 3, 3, 3, 3, 3, 3, 3, 4],
+    //   [0, 0, 0, 0, 0, 0, 3, 0, 0, 3, 0, 3, 3, 3, 3, 3, 3, 0, 3, 0, 0, 3, 0, 0, 0, 0, 0, 0],
+    //   [0, 0, 0, 0, 0, 0, 3, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 3, 0, 0, 3, 0, 0, 0, 0, 0, 0],
+    //   [0, 0, 0, 0, 0, 0, 3, 0, 0, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 0, 0, 3, 0, 0, 0, 0, 0, 0],
+    //   [0, 0, 0, 0, 0, 0, 3, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 3, 0, 0, 3, 0, 0, 0, 0, 0, 0],
+    //   [0, 0, 0, 0, 0, 0, 3, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 3, 0, 0, 3, 0, 0, 0, 0, 0, 0],
+    //   [0, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 0, 0, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 0],
+    //   [0, 3, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 3, 0, 0, 3, 0, 0, 0, 0, 0, 3, 0, 0, 0, 0, 3, 0],
+    //   [0, 3, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 3, 0, 0, 3, 0, 0, 0, 0, 0, 3, 0, 0, 0, 0, 3, 0],
+    //   [0, 3, 3, 3, 0, 0, 3, 3, 3, 3, 3, 1, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 0, 0, 3, 3, 3, 0],
+    //   [0, 0, 0, 3, 0, 0, 3, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 3, 0, 0, 3, 0, 0, 3, 0, 0, 0],
+    //   [0, 0, 0, 3, 0, 0, 3, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 3, 0, 0, 3, 0, 0, 3, 0, 0, 0],
+    //   [0, 3, 3, 3, 3, 3, 3, 0, 0, 3, 3, 3, 3, 0, 0, 3, 3, 3, 3, 0, 0, 3, 3, 3, 3, 3, 3, 0],
+    //   [0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 0],
+    //   [0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 0],
+    //   [0, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 0],
+    //   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+    // ],
+    // template : [
+    //   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    //   [0, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 0, 0, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 0],
+    //   [0, 3, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 3, 0, 0, 3, 0, 0, 0, 0, 0, 3, 0, 0, 0, 0, 3, 0],
+    //   [0, 3, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 3, 0, 0, 3, 0, 0, 0, 0, 0, 3, 0, 0, 0, 0, 3, 0],
+    //   [0, 3, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 3, 0, 0, 3, 0, 0, 0, 0, 0, 3, 0, 0, 0, 0, 3, 0],
+    //   [0, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 0],
+    //   [0, 3, 0, 0, 0, 0, 3, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 3, 0, 0, 3, 0, 0, 0, 0, 3, 0],
+    //   [0, 3, 0, 0, 0, 0, 3, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 3, 0, 0, 3, 0, 0, 0, 0, 3, 0],
+    //   [0, 3, 3, 3, 3, 3, 3, 0, 0, 3, 3, 3, 3, 0, 0, 3, 3, 3, 3, 0, 0, 3, 3, 3, 3, 3, 3, 0],
+    //   [0, 0, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 3, 0, 0, 3, 0, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 0],
+    //   [0, 0, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 3, 0, 0, 3, 0, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 0],
+    //   [0, 0, 0, 0, 0, 0, 3, 0, 0, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 0, 0, 3, 0, 0, 0, 0, 0, 0],
+    //   [0, 0, 0, 0, 0, 0, 3, 0, 0, 3, 0, 0, 0, 5, 5, 0, 0, 0, 3, 0, 0, 3, 0, 0, 0, 0, 0, 0],
+    //   [0, 0, 0, 0, 0, 0, 3, 0, 0, 3, 0, 3, 3, 3, 3, 3, 3, 0, 3, 0, 0, 3, 0, 0, 0, 0, 0, 0],
+    //   [4, 3, 3, 3, 3, 3, 3, 3, 3, 3, 0, 3, 3, 3, 3, 3, 3, 0, 3, 3, 3, 3, 3, 3, 3, 3, 3, 4],
+    //   [0, 0, 0, 0, 0, 0, 3, 0, 0, 3, 0, 3, 3, 3, 3, 3, 3, 0, 3, 0, 0, 3, 0, 0, 0, 0, 0, 0],
+    //   [0, 0, 0, 0, 0, 0, 3, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 3, 0, 0, 3, 0, 0, 0, 0, 0, 0],
+    //   [0, 0, 0, 0, 0, 0, 3, 0, 0, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 0, 0, 3, 0, 0, 0, 0, 0, 0],
+    //   [0, 0, 0, 0, 0, 0, 3, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 3, 0, 0, 3, 0, 0, 0, 0, 0, 0],
+    //   [0, 0, 0, 0, 0, 0, 3, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 3, 0, 0, 3, 0, 0, 0, 0, 0, 0],
+    //   [0, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 0, 0, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 0],
+    //   [0, 3, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 3, 0, 0, 3, 0, 0, 0, 0, 0, 3, 0, 0, 0, 0, 3, 0],
+    //   [0, 3, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 3, 0, 0, 3, 0, 0, 0, 0, 0, 3, 0, 0, 0, 0, 3, 0],
+    //   [0, 3, 3, 3, 0, 0, 1, 1, 1, 1, 1, 1, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 0, 0, 3, 3, 3, 0],
+    //   [0, 0, 0, 3, 0, 0, 3, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 3, 0, 0, 3, 0, 0, 3, 0, 0, 0],
+    //   [0, 0, 0, 3, 0, 0, 3, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 3, 0, 0, 3, 0, 0, 3, 0, 0, 0],
+    //   [0, 3, 3, 3, 3, 3, 3, 0, 0, 3, 3, 3, 3, 0, 0, 3, 3, 3, 3, 0, 0, 3, 3, 3, 3, 3, 3, 0],
+    //   [0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 0],
+    //   [0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 0],
+    //   [0, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 1, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 0],
+    //   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+    // ],
+    array : [
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0],
+      [0, 2, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 2, 0],
+      [0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0],
+      [0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0],
+      [0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0],
+      [0, 1, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 1, 0],
+      [0, 1, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 1, 0],
+      [0, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 0],
+      [0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 3, 0, 0, 3, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 3, 0, 0, 3, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 1, 0, 0, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 0, 0, 1, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 1, 0, 0, 3, 0, 0, 0, 5, 5, 0, 0, 0, 3, 0, 0, 1, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 1, 0, 0, 3, 0, 3, 3, 3, 3, 3, 3, 0, 3, 0, 0, 1, 0, 0, 0, 0, 0, 0],
+      [4, 3, 3, 3, 3, 3, 1, 3, 3, 3, 0, 3, 3, 3, 3, 3, 3, 0, 3, 3, 3, 1, 3, 3, 3, 3, 3, 4],
+      [0, 0, 0, 0, 0, 0, 1, 0, 0, 3, 0, 3, 3, 3, 3, 3, 3, 0, 3, 0, 0, 1, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 1, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 3, 0, 0, 1, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 1, 0, 0, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 0, 0, 1, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 1, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 3, 0, 0, 1, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 1, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 3, 0, 0, 1, 0, 0, 0, 0, 0, 0],
+      [0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0],
+      [0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0],
+      [0, 2, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 2, 0],
+      [0, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 0],
+      [0, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 0],
+      [0, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 0],
+      [0, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 0],
+      [0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0],
+      [0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0],
+      [0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+    ],
+    template : [
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0],
+      [0, 2, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 2, 0],
+      [0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0],
+      [0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0],
+      [0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0],
+      [0, 1, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 1, 0],
+      [0, 1, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 1, 0],
+      [0, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 0],
+      [0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 3, 0, 0, 3, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 3, 0, 0, 3, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 1, 0, 0, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 0, 0, 1, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 1, 0, 0, 3, 0, 0, 0, 5, 5, 0, 0, 0, 3, 0, 0, 1, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 1, 0, 0, 3, 0, 3, 3, 3, 3, 3, 3, 0, 3, 0, 0, 1, 0, 0, 0, 0, 0, 0],
+      [4, 3, 3, 3, 3, 3, 1, 3, 3, 3, 0, 3, 3, 3, 3, 3, 3, 0, 3, 3, 3, 1, 3, 3, 3, 3, 3, 4],
+      [0, 0, 0, 0, 0, 0, 1, 0, 0, 3, 0, 3, 3, 3, 3, 3, 3, 0, 3, 0, 0, 1, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 1, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 3, 0, 0, 1, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 1, 0, 0, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 0, 0, 1, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 1, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 3, 0, 0, 1, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 1, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 3, 0, 0, 1, 0, 0, 0, 0, 0, 0],
+      [0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0],
+      [0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0],
+      [0, 2, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 2, 0],
+      [0, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 0],
+      [0, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 0],
+      [0, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 0],
+      [0, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 0],
+      [0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0],
+      [0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0],
+      [0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+    ],
+    cw : 20,
+    pathArray : [],
+    pathMap : [],
+    pillLocs : [],
+    pillMap : {
+  		update : function(){
+  			if (!game.DEBUG){
+  				for (var i = 0; i < map.pillLocs.length; i++){
+  					var y = map.pillLocs[i][0]*map.cw+map.cw/2;
+  					var x = map.pillLocs[i][1]*map.cw+map.cw/2;
+  					var size = map.cw/9 + 2 + Math.sin(game.time * 15);
+  					var ctx = scene.context;
+  					ctx.fillStyle = "white";
+  					ctx.beginPath();
+  					ctx.arc(x,y,size,0,Math.PI*2,true);
+  					ctx.closePath();
+  					ctx.fill();
+  				}
+  			}
+  		}
+  	},
+    pillCount : 0,
+    init : function(){
+      this.array = [];
+      for (var i in this.template){
+        this.array.push(this.template[i].slice(0))
+      }
+      this.makePills();
+      this.makePathArray();
+      this.render();
+
+    },
+    makePills : function(){
+      this.pillLocs = [];
+      for (var i = 0; i < this.array.length; i++){
+  			for (var k = 0; k < this.array[i].length; k++){
+          if(this.array[i][k] == 1 || this.array[i][k] == 2){
+            this.pillCount++;
+            if(this.array[i][k] == 2) {
+    					this.pillLocs.push([i,k]);
+    				}
+          }
+  			}
+  		}
+    },
+    makePathArray : function(){
+      var pathArray = [];
+  		for (var i in this.array){
+  			pathArray.push(this.array[i].slice(0))
+  		}
+  		for (var r in pathArray){
+  			for (var c in pathArray[r]){
+  				var val;
+  				switch(pathArray[r][c]){
+  					case 1:
+  					case 2:
+  					case 3: val = null; break;
+  					case 0:
+  					case 4: val = 1000; break;
+  					case 5: val = 1001; break;
+  					default: break;
+  				}
+  				pathArray[r][c] = val;
+  			}
+  		}
+  		this.pathArray = pathArray;
+    },
+    render : function(){
+			this.canvas.width = map.cw * this.array[0].length;
+			this.canvas.height = map.cw * this.array.length;
 			this.context = this.canvas.getContext("2d");
 			document.body.insertBefore(this.canvas, document.body.childNodes[0]);
-			for (var i = 0; i < MapArray.length; i++){
-				for (var k = 0; k < MapArray[i].length; k++){
+			for (var i = 0; i < this.array.length; i++){
+				for (var k = 0; k < this.array[i].length; k++){
 					drawWall(i,k, this.context);
 
 					// get pixles
-					var x = k*cellWidth;
-					var y = i*cellWidth;
+					var x = k*map.cw;
+					var y = i*map.cw;
 
 					var ctx = this.context;
 					ctx.fillStyle = "white";
-					if(MapArray[i][k] == 1 && !DEBUG) {
-						var size = cellWidth/10;
+					if(this.array[i][k] == 1 && !game.DEBUG) {
+						var size = map.cw/10;
 						ctx.beginPath();
-						ctx.arc(x+cellWidth/2,y+cellWidth/2,size,0,Math.PI*2,true);
+						ctx.arc(x+map.cw/2,y+map.cw/2,size,0,Math.PI*2,true);
 						ctx.closePath();
 						ctx.fill();
-					} else if (MapArray[i][k] == 5){
-						ctx.fillRect(x, y+cellWidth/2-1, cellWidth, cellWidth/6);
+					} else if (this.array[i][k] == 5){
+						ctx.fillRect(x, y+map.cw/2-1, map.cw, map.cw/6);
 					}
 				}
 			}
 		},
 		coverDot : function(r,c){
 			// get pixles
-			var x = c*cellWidth;
-			var y = r*cellWidth;
+			var x = c*map.cw;
+			var y = r*map.cw;
 
 			var ctx = this.context;
 			ctx.fillStyle = "#000000";
 			ctx.beginPath();
-			ctx.arc(x+cellWidth/2,y+cellWidth/2,cellWidth/4,0,Math.PI*2,true);
+			ctx.arc(x+map.cw/2,y+map.cw/2,map.cw/4,0,Math.PI*2,true);
 			ctx.closePath();
 			ctx.fill();
-		}
+		},
 	}
 
 	var scene = {
@@ -134,8 +284,8 @@
 		ghosts: [],
 		keys: [],
 		start : function () {
-			this.canvas.width = cellWidth * MapArray[0].length;
-			this.canvas.height = cellWidth * MapArray.length;
+			this.canvas.width = map.cw * map.array[0].length;
+			this.canvas.height = (map.cw * map.array.length) + 50;
 			this.context = this.canvas.getContext("2d");
 			document.body.insertBefore(this.canvas, document.body.childNodes[0]);
 			this.interval = setInterval(updateGameArea, 20);
@@ -152,87 +302,70 @@
 		}
 	}
 
-	function startGame(){
-		for (var i = 0; i < MapArray.length; i++){
-			for (var k = 0; k < MapArray[i].length; k++){
-				if(MapArray[i][k] == 2) {
-					pillLocations.push([i,k]);
-				}
-			}
-		}
-		PathArray = makePathArray(MapArray);
-		mapScene.render();
-		scene.start();
-		scene.components.push(new pillMap());
-		mrPacMan = new pacMan(cellWidth);
-		scene.components.push(mrPacMan);
-		scene.ghosts.push(new ghost("red", 14, 11, "left", "follow"));
-		scene.ghosts.push(new ghost("cyan", 11, 14, "up", "bounce"));
-		scene.ghosts.push(new ghost("pink", 13, 14, "down", "bounce"));
-		scene.ghosts.push(new ghost("orange", 15, 14, "up", "bounce"));
+	function startGame (){
+    game = new Game();
+    game.go(1000);
+    mrPacMan = new PacMan(23, 14);
+    scene.components.push(mrPacMan);
+    map.init();
+		scene.components.push(map.pillMap);
+		scene.ghosts.push(new Ghost("red", 13, 11, "left", "follow"));
+    scene.ghosts.push(new Ghost("pink", 13, 14, "down", "bounce"));
+		scene.ghosts.push(new Ghost("cyan", 11, 14, "up", "bounce"));
+		scene.ghosts.push(new Ghost("orange", 15, 14, "up", "bounce"));
+    for (var i in scene.ghosts){ scene.ghosts[i].init(); }
+    scene.start();
 	}
 
-	function updateGameArea(){
-		time += 1/60;
+	function updateGameArea (){
+		game.time += 1/60;
 		scene.clear();
-		if (scene.keys){
-			if (scene.keys[37]){
-				if (canMove("left", mrPacMan)){ mrPacMan.direction = "left"; }
-			} else if (scene.keys[39]){
-				if (canMove("right", mrPacMan)){ mrPacMan.direction = "right"; }
-			} else if (scene.keys[38]){
-				if (canMove("up", mrPacMan)){ mrPacMan.direction = "up"; }
-			} else if (scene.keys[40]){
-				if (canMove("down", mrPacMan)){ mrPacMan.direction = "down"; }
-			}
-		}
-		for (var i = scene.components.length-1; i >= 0; i--){ scene.components[i].update(); }
-		for (var i = scene.ghosts.length-1; i >= 0; i--){ scene.ghosts[i].update(); }
-		step = step == 10? 0 : step+1;
+
+    // key presses
+    if (scene.keys){
+      if (scene.keys[37]){
+        if (canMove("left", mrPacMan)){ mrPacMan.direction = "left"; }
+      } else if (scene.keys[39]){
+        if (canMove("right", mrPacMan)){ mrPacMan.direction = "right"; }
+      } else if (scene.keys[38]){
+        if (canMove("up", mrPacMan)){ mrPacMan.direction = "up"; }
+      } else if (scene.keys[40]){
+        if (canMove("down", mrPacMan)){ mrPacMan.direction = "down"; }
+      }
+
+      if (game.over){
+        if (scene.keys[89]){
+          console.log("yes");
+          game.newGame();
+        } else if (scene.keys[78]){
+          console.log("go to menu");
+        }
+      }
+    }
+
+    // update everything
+    for (var i = scene.components.length-1; i >= 0; i--){ scene.components[i].update(); }
+    for (var i = scene.ghosts.length-1; i >= 0; i--){ scene.ghosts[i].update(); }
+
+    // game info
+    game.drawLives();
+    game.drawScore();
+    game.drawMessage();
+
+    game.spawnGhost();
 
 		// path finding debug
-		if (DEBUG){
-			for (var i in PathMap){
-				for (var k in PathMap[i]){
+		if (game.DEBUG){
+			for (var i in map.PathMap){
+				for (var k in map.PathMap[i]){
 					var ctx = scene.context;
 					ctx.fillStyle = 'teal';
 					ctx.font = "10px Arial";
-					var y = (i * cellWidth)+cellWidth/2;
-					var x = (k * cellWidth)+cellWidth/5;
-					if (PathMap[i][k]  !== 1000 ){
-						ctx.fillText(PathMap[i][k]+"",x,y);
+					var y = (i * map.cw)+map.cw/2;
+					var x = (k * map.cw)+map.cw/5;
+					if (map.PathMap[i][k]  !== 1000 ){
+						ctx.fillText(map.PathMap[i][k]+"",x,y);
 					}
-				}
-			}
-		}
-	}
-
-	function nextRound(){
-		if (mrPacMan.lives-- > 0){
-			mrPacMan.init();
-			for (var i in scene.ghosts){
-				scene.ghosts[i].init();
-			}
-			loss = false;
-			draw = true;
-		} else {
-			console.log("game over");
-		}
-	}
-
-	function pillMap(){
-		this.update = function(){
-			if (!DEBUG){
-				for (var i = 0; i < pillLocations.length; i++){
-					var y = pillLocations[i][0]*cellWidth+cellWidth/2;
-					var x = pillLocations[i][1]*cellWidth+cellWidth/2;
-					var size = cellWidth/9 + 2 + Math.sin(time * 15);
-					var ctx = scene.context;
-					ctx.fillStyle = "white";
-					ctx.beginPath();
-					ctx.arc(x,y,size,0,Math.PI*2,true);
-					ctx.closePath();
-					ctx.fill();
 				}
 			}
 		}
@@ -244,96 +377,102 @@
 	//
 	//===============================
 
-	function pacMan (size) {
-		this.width = cellWidth - 4;
-		this.height = cellWidth - 4;
-		this.cellCol = 13;
-		this.cellRow = 23;
-		this.x = this.cellCol * cellWidth + (cellWidth)/2;
-		this.y = this.cellRow * cellWidth + (cellWidth)/2;
+	function PacMan (row, col) {
+		this.width = map.cw - 4;
+		this.height = map.cw - 4;
+    this.cellRow = row;
+		this.cellCol = col;
+    this.startRow = row;
+    this.startCol = col;
+    this.y = this.cellRow * map.cw + (map.cw)/2;
+		this.x = this.cellCol * map.cw + (map.cw)/2;
+    this.startY = this.y;
 		this.startX = this.x;
-		this.startY = this.y;
 		this.direction = "left";
-		this.rotation = 0;
+		this.rotation = Math.PI;
 		this.mouthSize = 0.5;
 		this.pop = false
 		this.deathInterval;
 		this.lives = 3;
-		this.speed = 7;
+		this.speed = 6;
 		this.step = this.speed-1;
 		this.init = function(){
 			this.width = this.height;
-			this.cellCol = 13;
-			this.cellRow = 23;
-			this.x = this.cellCol * cellWidth + (cellWidth)/2;
-			this.y = this.cellRow * cellWidth + (cellWidth)/2;
+			this.cellCol = this.startCol;
+			this.cellRow = this.startRow;
+			this.x = this.cellCol * map.cw + (map.cw)/2;
+			this.y = this.cellRow * map.cw + (map.cw)/2;
 			this.startX = this.x;
 			this.startY = this.y;
+      this.count = this.speed;
 			this.direction = "left";
-			this.rotation = 0;
+      this.rotation = Math.PI;
 			this.mouthSize = 0.5;
 			this.pop = false;
 		}
 		this.update = function(){
-			if (!loss){
-				this.checkCollisoin();
+      if (game.on){
+        if (!game.loss){
+          this.checkCollisoin();
 
-				if (this.step == this.speed){
-					if(this.direction !== ""){
-						this.scoreCell();
-						mapScene.coverDot(this.cellRow, this.cellCol);
-						for (var i = 0; i < pillLocations.length; i++){
-							if (pillLocations[i][0] == this.cellRow && pillLocations[i][1] == this.cellCol){
-								pillLocations.splice(i, 1);
-							}
-						}
-					}
+          if (this.step == this.speed){
+            if(this.direction !== ""){
+              this.scoreCell();
+              map.coverDot(this.cellRow, this.cellCol);
+              for (var i = 0; i < map.pillLocs.length; i++){
+                if (map.pillLocs[i][0] == this.cellRow && map.pillLocs[i][1] == this.cellCol){
+                  map.pillLocs.splice(i, 1);
+                }
+              }
+            }
 
-					switch (this.direction) {
-						case "right": if (canMove("right", this)){
-								this.cellCol++;
-								teleport(this);
-							} else { this.direction = ""} break;
-						case "left": if (canMove("left", this)){
-								this.cellCol--;
-								teleport(this);
-							} else { this.direction = ""} break;
-						case "up":
-							if (canMove("up", this)){ this.cellRow--; }
-							else { this.direction = ""} break;
-						case "down":
-							if (canMove("down", this)){ this.cellRow++;}
-							else { this.direction = ""} break;
-						default: break;
-					}
+            switch (this.direction) {
+              case "right": if (canMove("right", this)){
+                this.cellCol++;
+                teleport(this);
+              } else { this.direction = ""} break;
+              case "left": if (canMove("left", this)){
+                this.cellCol--;
+                teleport(this);
+              } else { this.direction = ""} break;
+              case "up":
+              if (canMove("up", this)){ this.cellRow--; }
+              else { this.direction = ""} break;
+              case "down":
+              if (canMove("down", this)){ this.cellRow++;}
+              else { this.direction = ""} break;
+              default: break;
+            }
 
-					// set current position
-					this.startX = this.x;
-					this.startY = this.y;
-				} else {
-					// update current postino based off next cell
-					var x = this.cellCol * cellWidth + (cellWidth)/2;
-					var y = this.cellRow * cellWidth + (cellWidth)/2;
-					this.x = this.startX + (x - this.startX)*(this.step/(this.speed-1));
-					this.y = this.startY + (y - this.startY)*(this.step/(this.speed-1));
-				}
+            // set current position
+            this.startX = this.x;
+            this.startY = this.y;
+          } else {
+            // update current postino based off next cell
+            var x = this.cellCol * map.cw + (map.cw)/2;
+            var y = this.cellRow * map.cw + (map.cw)/2;
+            this.x = this.startX + (x - this.startX)*(this.step/(this.speed-1));
+            this.y = this.startY + (y - this.startY)*(this.step/(this.speed-1));
+          }
 
-				// stop waka wakaing when stopped
+          // stop waka wakaing when stopped
 
-				if (this.direction !== ""){ this.mouthSize = Math.sin(time * 25); }
-				else { this.mouthSize = 0.6; }
-			}
+          if (this.direction !== ""){ this.mouthSize = Math.sin(game.time * 50); }
+          else { this.mouthSize = 0.6; }
+        }
 
-			// set rotation
-			switch (this.direction) {
-				case "right": this.rotation = 0; break;
-				case "down": this.rotation = Math.PI/2; break;
-				case "left": this.rotation = Math.PI; break;
-				case "up": this.rotation = Math.PI * 1.5; break;
-				default: break;
-			}
+        // set rotation
+        switch (this.direction) {
+          case "right": this.rotation = 0; break;
+          case "down": this.rotation = Math.PI/2; break;
+          case "left": this.rotation = Math.PI; break;
+          case "up": this.rotation = Math.PI * 1.5; break;
+          default: break;
+        }
+
+        this.step = this.step == this.speed? 0 : this.step+1;
+      }
 			this.draw();
-			this.step = this.step == this.speed? 0 : this.step+1;
 		},
 		this.draw = function(){
 			var ctx = scene.context;
@@ -341,7 +480,23 @@
 				ctx.fillStyle = "yellow";
 				ctx.beginPath();
 				ctx.arc(this.x,this.y,this.width,this.mouthSize+this.rotation,((Math.PI*2)-this.mouthSize)+this.rotation);
-				ctx.lineTo(this.x,this.y);
+        ctx.lineTo(this.x,this.y);
+        // switch (this.direction) {
+        //   case "up":
+        //     ctx.lineTo(this.x,this.y+7);
+        //     break;
+        //   case "right":
+        //     ctx.lineTo(this.x-7,this.y);
+        //     break;
+        //   case "down":
+        //     ctx.lineTo(this.x,this.y-7);
+        //     break;
+        //   case "left":
+        //     ctx.lineTo(this.x+7,this.y);
+        //     break;
+        //   default:
+        //   ctx.lineTo(this.x,this.y);
+        // }
 				ctx.closePath();
 				ctx.fill();
 			} else {
@@ -367,20 +522,22 @@
 					cur.width = 0
 					cur.deathInterval = setInterval(function(){
 						cur.width += 4
-						if (cur.width > cellWidth - 4){
+						if (cur.width > map.cw - 4){
 							cur.width = 0
 							pops++
 						}
 						if (pops == 2){
 							clearInterval(cur.deathInterval);
-							setTimeout(nextRound(), 500);
+              // game.nextRound()
+              game.on = false;
+							setTimeout(game.nextRound(), 1000);
 						}
 					}, 35)
 				}
 			}, 30);
 		}
 		this.checkCollisoin = function(){
-			if (!loss){
+			if (!game.loss){
 				for (var i in scene.ghosts){
 					if (scene.ghosts[i].action == "follow" || scene.ghosts[i].action == "flee"){
 						var x1 = mrPacMan.x
@@ -389,19 +546,17 @@
 						var y2 = scene.ghosts[i].y
 						var distance = Math.sqrt( (x1-x2)*(x1-x2) + (y1-y2)*(y1-y2) );
 
-						if (distance <= mrPacMan.width*2) {
+						if (distance <= mrPacMan.width) {
 							if (scene.ghosts[i].action == "follow"){
-								loss = true;
+								game.loss = true;
 								var cur = this;
 								setTimeout(function(){
-									draw = false;
+									game.drawGhosts = false;
 									cur.die();
 								}, 400);
 							} else {
-								scene.ghosts[i].action = "home";
-								// add points
-								//
-								//===========
+                game.score += 200;
+								scene.ghosts[i].respawn();
 							}
 						}
 					}
@@ -409,76 +564,113 @@
 			}
 		}
 		this.scoreCell = function(){
-			if(MapArray[mrPacMan.cellRow][mrPacMan.cellCol] == 1){
-				MapArray[mrPacMan.cellRow][mrPacMan.cellCol] = 3;
-				score += 10;
+      // if cell is small pill
+			if(map.array[mrPacMan.cellRow][mrPacMan.cellCol] == 1){
+				map.array[mrPacMan.cellRow][mrPacMan.cellCol] = 3;
+				game.score += 10;
+        map.pillCount--;
 			}
-			if(MapArray[mrPacMan.cellRow][mrPacMan.cellCol] == 2){
-				MapArray[mrPacMan.cellRow][mrPacMan.cellCol] = 3;
-				score += 50;
-				clearTimeout(this.fleeTimeout);// not working
+      // if cell is big pill
+			if(map.array[mrPacMan.cellRow][mrPacMan.cellCol] == 2){
+				map.array[mrPacMan.cellRow][mrPacMan.cellCol] = 3;
+				game.score += 50;
+        map.pillCount--;
+
+        // following ghosts flee
+				clearTimeout(this.fleeTimeout);
+        clearTimeout(this.blinkTimeout)
 				for (var i in scene.ghosts){
-					if (scene.ghosts[i].action == "follow"){
-						scene.ghosts[i].action = "flee"; }
-					}
-				this.fleeTimeout = setTimeout(function(){
+						scene.ghosts[i].flee();
+        }
+        // fleeing ghosts blink in 7 sec
+        this.fleeTimeout = setTimeout(function(){
 					for (var i in scene.ghosts){
 						if (scene.ghosts[i].action == "flee"){
-							scene.ghosts[i].action = "follow";
+							scene.ghosts[i].blink = true;
 						}
 					}
-				}, 10 * 1000);
+				}, 3 * 1000);
+        // fleeing ghosts folow in 10 sec
+        this.fleeTimeout = setTimeout(function(){
+					for (var i in scene.ghosts){
+						if (scene.ghosts[i].action == "flee"){
+							scene.ghosts[i].follow();
+						}
+					}
+				}, 5 * 1000);
 			}
-			// update score
-			//
-			//============
+      // if game won
+      if (map.pillCount == 0){ game.nextLevel(); }
 		}
+    this.newGame = function(){
+      this.lives = 3;
+      this.init()
+    }
 	}
 
-	function ghost(color, cellX, cellY, direction, action){
+	function Ghost (color, cellX, cellY, direction, action) {
 		this.color = color;
-		this.width = cellWidth-5;
-		this.height = cellWidth-3;
+		this.width = map.cw-5;
+		this.height = map.cw-3;
 		this.cellRow = cellY;
 		this.cellCol = cellX;
 		this.startRow = cellY;
 		this.startCol = cellX;
-		this.x = cellY * cellWidth + (cellWidth)/2;
-		this.y = cellY * cellWidth + (cellWidth)/2;
+		this.x = cellY * map.cw + (map.cw)/2;
+		this.y = cellY * map.cw + (map.cw)/2;
 		this.startX = this.x;
 		this.startY = this.y;
 		this.direction = direction;
 		this.action = action;
+    this.blink = false;
+    this.speed = 9;
+    this.defaultSpeed = this.speed;
+		this.step = this.speed-1;
 		this.init = function(){
 			this.cellRow = this.startRow;
 			this.cellCol = this.startCol;
-			this.x = this.startRow * cellWidth + (cellWidth)/2;
-			this.y = this.startCol * cellWidth + (cellWidth)/2;
-			this.startX = this.x;
-			this.startY = this.y;
+			this.x = this.startCol * map.cw + (map.cw)/2;
+			this.y = this.startRow * map.cw + (map.cw)/2;
 			if (this.color == "red"){
 				this.action = "follow";
 				this.direction = "left";
 			} else {
 				this.action = "bounce";
+        this.x += map.cw/2;
 				if (this.color == "pink"){
 					this.direction = "up";
 				} else {
 					this.direction = "down";
 				}
 			}
+      this.startX = this.x;
+      this.startY = this.y;
+      this.step = this.speed;
+      this.blink = false;
 		}
-		this.draw = function(){
+    this.isHome = function(){
+      if (this.cellRow == 14 && this.cellCol == 13){
+        return true
+      }
+      return false
+    },
+    this.draw = function(){
 			var ctx = scene.context;
 			// color
-			if (this.action == "flee"){ ctx.fillStyle = "blue"; }
+			if (this.action == "flee"){
+        if (this.blink && Math.sin(game.time*20) < 0){
+          ctx.fillStyle = "white";
+        }
+        else { ctx.fillStyle = "blue"; }
+      }
 			else { ctx.fillStyle = this.color; }
 			// body
 			if (this.action != "home"){
 				ctx.beginPath();
 				ctx.arc(this.x,this.y,this.width,Math.PI,Math.PI*2);
-				if (step < 5){
+        if (Math.sin(game.time*25) < 0){
 					ctx.lineTo(this.x+this.width,this.y+this.height);
+					ctx.lineTo(this.x+this.width-1,this.y+this.height);
 					ctx.lineTo(this.x+((this.width/2)+2),this.y+this.height-5);
 					ctx.lineTo(this.x+5,this.y+this.height);
 					ctx.lineTo(this.x+2,this.y+this.height);
@@ -487,15 +679,19 @@
 					ctx.lineTo(this.x-2,this.y+this.height);
 					ctx.lineTo(this.x-5,this.y+this.height);
 					ctx.lineTo(this.x-((this.width/2)+2),this.y+this.height-5);
-					ctx.lineTo(this.x-this.width,this.y+this.height);
+					ctx.lineTo(this.x-this.width+1,this.y+this.height);
+          ctx.lineTo(this.x-this.width,this.y+this.height);
 				}
 				else {
-					ctx.lineTo(this.x+this.width,this.y+this.height-3);
-					ctx.lineTo(this.x+((this.width/2)+3),this.y+this.height);
-					ctx.lineTo(this.x+5,this.y+this.height-5);
+					ctx.lineTo(this.x+this.width,this.y+this.height-4);
+					ctx.lineTo(this.x+((this.width/2)+4),this.y+this.height);
+					ctx.lineTo(this.x+((this.width/2)+2 ),this.y+this.height);
+					ctx.lineTo(this.x+6,this.y+this.height-5);
+					ctx.lineTo(this.x+1,this.y+this.height);
 					ctx.lineTo(this.x,this.y+this.height);
-					ctx.lineTo(this.x-5,this.y+this.height-5);
-					ctx.lineTo(this.x-((this.width/2)+3),this.y+this.height);
+					ctx.lineTo(this.x-6,this.y+this.height-5);
+					ctx.lineTo(this.x-((this.width/2)+2),this.y+this.height);
+					ctx.lineTo(this.x-((this.width/2)+4),this.y+this.height);
 					ctx.lineTo(this.x-this.width,this.y+this.height-3);
 				}
 				ctx.closePath();
@@ -532,13 +728,20 @@
 				ctx.arc(this.x+6+(xOff*2),this.y-4+(yOff*2),this.width/7,0,Math.PI*2);
 				ctx.closePath();
 				ctx.fill();
-			} else {
+			}
+      // fleeing
+      else {
 				// eyes
-				ctx.fillStyle = "white";
+        if (this.blink && Math.sin(game.time*20) < 0){
+          ctx.strokeStyle = "red";
+          ctx.fillStyle = "red";
+        } else {
+          ctx.fillStyle = "white";
+          ctx.strokeStyle = "white";
+        }
 				ctx.fillRect(this.x-(this.width/2), this.y-6, this.width/3.5, this.width/3.5);
 				ctx.fillRect(this.x+(this.width/4), this.y-6, this.width/3.5, this.width/3.5);
 				// mouth
-				ctx.strokeStyle = "white";
 				ctx.lineWidth = 2;
 				ctx.beginPath();
 				var gap = this.width/5
@@ -554,150 +757,305 @@
 
 		}
 		this.update = function(){
-			if (step == 10 && !loss){
-				this.direction = this.route();
+      if (game.on){
+      // if (false){
+        if (!game.loss){
+          if (this.step == this.speed){
+            if (this.action == "home" && this.isHome()){
+              this.follow()
+            }
+            this.direction = this.route();
+            switch (this.direction) {
+              case "right": this.cellCol++; teleport(this); break;
+              case "left": this.cellCol--; teleport(this); break;
+              case "up": this.cellRow--; break;
+              case "down": this.cellRow++; break;
+              default: break;
+            }
 
-				switch (this.direction) {
-					case "right": this.cellCol++; teleport(this); break;
-					case "left": this.cellCol--; teleport(this); break;
-					case "up": this.cellRow--; break;
-					case "down": this.cellRow++; break;
-					default: break;
-				}
-				// set current position
-				this.startX = this.x;
-				this.startY = this.y;
-			} else if (!loss) {
-				var xOffset = cellWidth/2
-				var yOffset = cellWidth/2
-				if (this.action == "bounce"){ xOffset += cellWidth/2; }
+            // set current position
+            this.startX = this.x;
+            this.startY = this.y;
+          } else {
+            var xOffset = map.cw/2
+            var yOffset = map.cw/2
+            if (this.action == "bounce"){ xOffset += map.cw/2; }
 
-				// update current position based off next cell
-				var x = this.cellCol * cellWidth + xOffset;
-				var y = this.cellRow * cellWidth + yOffset;
-				this.x = this.startX + (x - this.startX)*(step/9);
-				this.y = this.startY + (y - this.startY)*(step/9);
-			}
-
-			if (draw) { this.draw(); }
-		},
+            // update current position based off next cell
+            var x = this.cellCol * map.cw + xOffset;
+            var y = this.cellRow * map.cw + yOffset;
+            this.x = this.startX + (x - this.startX)*(this.step/(this.speed-1));
+            this.y = this.startY + (y - this.startY)*(this.step/(this.speed-1));
+          }
+        }
+        this.step = this.step >= this.speed? 0 : this.step+1;
+      }
+      if (game.drawGhosts) { this.draw(); }
+    },
 		this.route = function(){
 			if (this.action == "bounce"){
 				if (this.direction == "up" && !canMove("up", this)){ return "down"; }
 				if (this.direction == "down" && !canMove("down", this)){ return "up"; }
 			} else {
-				return getNextCell(this, this.action);
+        return getNextCell(this, this.action);
 			}
 			return this.direction
-		}
-	}
+		},
+    this.flee = function(){
+      this.blink = false;
+      if (this.action == "follow"){
+        switch (this.direction) {
+          case "up": this.direction = "down"; break;
+          case "down": this.direction = "up"; break;
+          case "left": this.direction = "right"; break;
+          case "right": this.direction = "left"; break;
+          default: console.log("error in run away");
+        }
+        this.action = "flee";
+        this.speed = 11;
+        this.count = 0;
+      }
+    }
+    this.follow = function(){
+      this.action = "follow";
+      this.speed = this.defaultSpeed;
+      this.step = 0;
+    }
+    this.respawn = function(){
+      this.speed = 4;
+      this.count = 0;
+      this.action = "home";
+    }
+  }
+
+  function Game (){
+    this.score = 0;
+    this.time = 0;
+    this.on = false;
+    this.loss = false;
+    this.DEBUG = false;
+    this.drawGhosts = true;
+    this.spanedPink = false;
+    this.spanedCyan = false;
+    this.spanedOrange = false;
+    this.go = function(timeout){
+      var cur = this;
+      setTimeout(function(){cur.on = true;}, timeout);
+    }
+    this.nextRound = function(){
+  		if (mrPacMan.lives-- > 0){
+        this.resetLevel();
+        this.go(1000);
+  		} else {
+  			game.over = true;
+  		}
+  	}
+    this.drawMessage = function(){
+      // print ready / game over
+      var ctx = scene.context;
+      ctx.font = "20px Bold Arial";
+      if (!game.on && mrPacMan.lives > 0 && map.pillCount > 0){
+        ctx.fillStyle = 'yellow';
+        ctx.fillText("READY!",243,356);
+      } else if (!game.on && mrPacMan.lives < 0){
+        ctx.fillStyle = 'red';
+        ctx.fillText("GAME OVER",220,235);
+        ctx.fillStyle = 'white';
+        ctx.fillText("New Game? Y / N",205,356);
+      }
+    }
+    this.drawLives = function(){
+      var y = map.array.length * map.cw + 20;
+      var x = (map.array[0].length * map.cw) + 5
+      for (var i = 0; i < mrPacMan.lives; i++){
+        var ctx = scene.context;
+        x -= (mrPacMan.height*2)+5
+        ctx.fillStyle = "yellow";
+        ctx.beginPath();
+        ctx.arc(x,y,mrPacMan.height,Math.PI+0.5,Math.PI-0.5);
+        ctx.lineTo(x+5,y);
+        ctx.closePath();
+        ctx.fill();
+      }
+    }
+    this.drawScore = function(){
+      // print ready / game over
+      var y = map.array.length * map.cw + 30;
+      var ctx = scene.context;
+      ctx.font = "30px Arial";
+      ctx.fillStyle = 'white';
+      ctx.fillText("Score: "+game.score,10,y);
+    }
+    this.spawnGhost = function(){
+      if (!this.spanedPink && Math.round(this.time) == 2){
+        this.spanedPink = true;
+        scene.ghosts[1].action = "follow"
+      }
+      if (!this.spanedCyan && Math.round(this.time) == 10){
+        this.spanedCyan = true;
+        scene.ghosts[2].action = "follow"
+      }
+      if (!this.spanedOrange && Math.round(this.time) == 20){
+        this.spanedOrange = true;
+        scene.ghosts[3].action = "follow"
+      }
+    }
+    this.nextLevel = function(){
+      game.on = false;
+      var cur = this;
+      setTimeout(function(){
+        map.blink = true;
+        cur.drawGhosts = false;
+      }, 700);
+      setTimeout(function(){
+        cur.drawGhosts = true;
+        map.blink = false;
+        cur.resetMap();
+      }, 1700);
+    }
+    this.resetLevel = function(){
+      mrPacMan.init();
+      for (var i in scene.ghosts){ scene.ghosts[i].init(); }
+      game.drawGhosts = true;
+      game.loss = false;
+      this.time = 0
+      this.spanedPink = false;
+      this.spanedCyan = false;
+      this.spanedOrange = false;
+    }
+    this.resetMap = function(){
+      map.init();
+      mrPacMan.init();
+      this.resetLevel();
+      this.go(1000);
+    }
+    this.newGame = function(){
+      game.score = 0;
+      this.resetMap();
+      mrPacMan.newGame();
+      game.over = false;
+    }
+  }
 
 	//===============================
 	//
 	// 			PATH FINDING
 	//
 	//===============================
-	function getNextCell(ghost, action){
-		PathMap = [];
-		for (var i in PathArray){
-			PathMap[i] = PathArray[i].slice(0);
+	function getNextCell (ghost, action) {
+    // coppy pathArray
+    map.PathMap = [];
+		for (var i in map.pathArray){
+			map.PathMap[i] = map.pathArray[i].slice(0);
 		}
+    // set target cell
 		var targetRow, targetCol;
 		if (action == "home"){
-			targetRow = 11; targetCol = 14;
+			targetRow = 14; targetCol = 13;
 		} else {
-			// add checks for ghost color
-			//
-			//============================
-			targetRow = mrPacMan.cellRow; targetCol = mrPacMan.cellCol;
+      targetRow = mrPacMan.cellRow; targetCol = mrPacMan.cellCol;
+      if (ghost.action == "follow"){
+        switch (ghost.color) {
+          case "pink":
+            switch (mrPacMan.direction) {
+              case "up": targetRow -= 2; targetCol -= 2; break;
+              case "right": targetCol += 2; break;
+              case "down": targetRow += 2; break;
+              case "left": targetCol += 2; break;
+              default: break;
+            }
+            break;
+          case "orange":
+            var x1 = mrPacMan.x
+            var y1 = mrPacMan.y
+            var x2 = ghost.x
+            var y2 = ghost.y
+            var distance = Math.sqrt( (x1-x2)*(x1-x2) + (y1-y2)*(y1-y2) );
+            if (distance < 175){
+              targetRow = map.array.length-2;
+              targetCol = 1;
+            }
+            break;
+          case "cyan":
+            // draw line through
+            break;
+          default: break;
+        }
+      }
 		}
-
-		makePath(targetRow, targetCol);
-		return pickBestPath(ghost);
+    // if target is on the map
+    makePath(targetRow, targetCol);
+    return pickBestDirection(ghost);
+    return ghost.direction
 	}
 
-	function pickBestPath(ghost){
+	function pickBestDirection (ghost) {
 		var row = ghost.cellRow;
 		var col = ghost.cellCol;
 		var bestCell, ret;
 		switch (ghost.action) {
 			case "home":
+      bestCell = 1000;
+        if (map.PathMap[row-1][col] < bestCell){
+          ret = "up"; bestCell = map.PathMap[row-1][col];
+        }  if (map.PathMap[row][col+1] < bestCell){
+          ret =  "right"; bestCell = map.PathMap[row][col+1];
+        } if (map.PathMap[row+1][col] < bestCell){
+          ret =  "down"; bestCell = map.PathMap[row+1][col];
+        } if (map.PathMap[row][col-1] < bestCell){
+          ret =  "left"; bestCell = map.PathMap[row][col-1];
+        } break;
 			case "follow":
 				bestCell = 1000;
-				if (PathMap[row-1][col] < bestCell){
-					ret = "up"; bestCell = PathMap[row-1][col];
-				}  if (PathMap[row][col+1] < bestCell){
-					ret =  "right"; bestCell = PathMap[row][col+1];
-				} if (PathMap[row+1][col] < bestCell){
-					ret =  "down"; bestCell = PathMap[row+1][col];
-				} if (PathMap[row][col-1] < bestCell){
-					ret =  "left"; bestCell = PathMap[row][col-1];
+				if (map.PathMap[row-1][col] < bestCell && ghost.direction != "down"){
+          ret = "up"; bestCell = map.PathMap[row-1][col];
+				}  if (map.PathMap[row][col+1] < bestCell && ghost.direction != "left"){
+					ret =  "right"; bestCell = map.PathMap[row][col+1];
+				} if (map.PathMap[row+1][col] < bestCell && ghost.direction != "up"){
+					ret =  "down"; bestCell = map.PathMap[row+1][col];
+				} if (map.PathMap[row][col-1] < bestCell && ghost.direction != "right"){
+					ret =  "left"; bestCell = map.PathMap[row][col-1];
 				} break;
 			case "flee":
 				bestCell = 0;
-				if (PathMap[row-1][col] < 1000 &&
-					PathMap[row-1][col] > bestCell &&
+				if (map.PathMap[row-1][col] < 1000 &&
+					map.PathMap[row-1][col] > bestCell &&
 					ghost.direction != "down"
-				){ ret = "up"; bestCell = PathMap[row-1][col]; }
-				if (PathMap[row][col+1] < 1000 &&
-					PathMap[row][col+1] > bestCell &&
+				){ ret = "up"; bestCell = map.PathMap[row-1][col]; }
+				if (map.PathMap[row][col+1] < 1000 &&
+					map.PathMap[row][col+1] > bestCell &&
 					ghost.direction != "left"
-				){ ret =  "right"; bestCell = PathMap[row][col+1]; }
-				if (PathMap[row+1][col] < 1000 &&
-					PathMap[row+1][col] > bestCell &&
+				){ ret =  "right"; bestCell = map.PathMap[row][col+1]; }
+				if (map.PathMap[row+1][col] < 1000 &&
+					map.PathMap[row+1][col] > bestCell &&
 					ghost.direction != "up"
-				){ ret =  "down"; bestCell = PathMap[row+1][col]; }
-				if (PathMap[row][col-1] < 1000 &&
-					PathMap[row][col-1] > bestCell &&
+				){ ret =  "down"; bestCell = map.PathMap[row+1][col]; }
+				if (map.PathMap[row][col-1] < 1000 &&
+					map.PathMap[row][col-1] > bestCell &&
 					ghost.direction != "right"
-				){ ret =  "left"; bestCell = PathMap[row][col-1]; }
+				){ ret =  "left"; bestCell = map.PathMap[row][col-1]; }
 				break;
 			default:
 		}
-		return ret;
+    return ret;
 	}
 
-	function makePath(row, col, n){
+	function makePath (row, col, n) {
+    if ((row < 0 || row >= map.array.length) ||
+        (col < 0 || col >= map.array.length)){
+        return null;
+    }
 		if (
-			PathMap[row][col] == 1000 ||
-			n > PathMap[row][col] && PathMap[row][col] != null
-		){ return PathMap; }
+			map.PathMap[row][col] == 1000 ||
+			n > map.PathMap[row][col] && map.PathMap[row][col] != null
+		){ return map.PathMap; }
 
-		PathMap[row][col] = n = (n == undefined ? 0 : n);
+		map.PathMap[row][col] = n = (n == undefined ? 0 : n);
 		makePath(row, col-1, n+1);
 		makePath(row, col+1, n+1);
 		makePath(row-1, col, n+1);
 		makePath(row+1, col, n+1);
-		return PathMap;
-	}
-
-	function canStep(row, col){ // remove
-		if (PathMap[row][col] == null){ return true; }
-		return false;
-	}
-
-	// make path template
-	function makePathArray(inArray){
-		var pathArray = [];
-		for (var i in inArray){
-			pathArray.push(inArray[i].slice(0))
-		}
-		for (var r in pathArray){
-			for (var c in pathArray[r]){
-				var val;
-				switch(pathArray[r][c]){
-					case 1:
-					case 2:
-					case 3: val = null; break;
-					case 0:
-					case 4:
-					case 5: val = 1000; break;
-					default: break;
-				}
-				pathArray[r][c] = val;
-			}
-		}
-		return pathArray;
+		return map.PathMap;
 	}
 
 	//===============================
@@ -705,14 +1063,14 @@
 	//			DRAW WALLS
 	//
 	//===============================
-	function getCell(r,c){
-		if (c < 0 || c >= MapArray[0].length){ return 0; }
-		if (r < 0 || r >= MapArray.length){ return 0; }
-		if (MapArray[r][c] == 5){ return 0; }
-		return MapArray[r][c];
+	function getCell (r,c) {
+		if (c < 0 || c >= map.array[0].length){ return 0; }
+		if (r < 0 || r >= map.array.length){ return 0; }
+		if (map.array[r][c] == 5){ return 0; }
+		return map.array[r][c];
 	}
 
-	function drawWall(r,c, ctx){
+	function drawWall (r,c, ctx) {
 
 		if (getCell(r,c) == 4){ return; }
 
@@ -733,36 +1091,36 @@
 		ctx.beginPath();
 		switch (cornerCase) {
 			// down/right
-			case 4: ctx.arc(c*cellWidth+cellWidth,r*cellWidth+cellWidth,cellWidth/2,Math.PI,Math.PI*1.5); break;
-			case 11: ctx.arc(c*cellWidth,r*cellWidth,cellWidth/2,Math.PI,Math.PI*1.5); break;
+			case 4: ctx.arc(c*map.cw+map.cw,r*map.cw+map.cw,map.cw/2,Math.PI,Math.PI*1.5); break;
+			case 11: ctx.arc(c*map.cw,r*map.cw,map.cw/2,Math.PI,Math.PI*1.5); break;
 			// up/right
-			case 2: ctx.arc(c*cellWidth+cellWidth,r*cellWidth-cellWidth,cellWidth/2,Math.PI*0.5,Math.PI); break;
-			case 13: ctx.arc(c*cellWidth,r*cellWidth,cellWidth/2,Math.PI*0.5,Math.PI); break;
+			case 2: ctx.arc(c*map.cw+map.cw,r*map.cw-map.cw,map.cw/2,Math.PI*0.5,Math.PI); break;
+			case 13: ctx.arc(c*map.cw,r*map.cw,map.cw/2,Math.PI*0.5,Math.PI); break;
 			// down/left
-			case 8: ctx.arc(c*cellWidth-cellWidth,r*cellWidth+cellWidth,cellWidth/2,Math.PI*1.5,Math.PI*2); break;
-			case 7: ctx.arc(c*cellWidth,r*cellWidth,cellWidth/2,Math.PI*1.5,Math.PI*2); break;
+			case 8: ctx.arc(c*map.cw-map.cw,r*map.cw+map.cw,map.cw/2,Math.PI*1.5,Math.PI*2); break;
+			case 7: ctx.arc(c*map.cw,r*map.cw,map.cw/2,Math.PI*1.5,Math.PI*2); break;
 			// up/left
-			case 1: ctx.arc(c*cellWidth-cellWidth,r*cellWidth-cellWidth,cellWidth/2,0,Math.PI*0.5); break;
-			case 14: ctx.arc(c*cellWidth,r*cellWidth,cellWidth/2,0,Math.PI*0.5); break;
+			case 1: ctx.arc(c*map.cw-map.cw,r*map.cw-map.cw,map.cw/2,0,Math.PI*0.5); break;
+			case 14: ctx.arc(c*map.cw,r*map.cw,map.cw/2,0,Math.PI*0.5); break;
 			default: break;
 		}
 
 		switch(straightCase){
 			case 11: case 14:
-				ctx.moveTo(c*cellWidth,r*cellWidth+cellWidth/2);
-				ctx.lineTo(c*cellWidth+cellWidth,r*cellWidth+cellWidth/2);
+				ctx.moveTo(c*map.cw,r*map.cw+map.cw/2);
+				ctx.lineTo(c*map.cw+map.cw,r*map.cw+map.cw/2);
 				break;
 			case 13: case 7:
-				ctx.moveTo(c*cellWidth+cellWidth/2,r*cellWidth);
-				ctx.lineTo(c*cellWidth+cellWidth/2,r*cellWidth+cellWidth);
+				ctx.moveTo(c*map.cw+map.cw/2,r*map.cw);
+				ctx.lineTo(c*map.cw+map.cw/2,r*map.cw+map.cw);
 				break;
-			case 10: if (MapArray[r][c] === 0){
-					ctx.moveTo(c*cellWidth,r*cellWidth+cellWidth/2);
-					ctx.lineTo(c*cellWidth+cellWidth,r*cellWidth+cellWidth/2);
+			case 10: if (map.array[r][c] === 0){
+					ctx.moveTo(c*map.cw,r*map.cw+map.cw/2);
+					ctx.lineTo(c*map.cw+map.cw,r*map.cw+map.cw/2);
 				} break;
-			case 5: if (MapArray[r][c] === 0){
-					ctx.moveTo(c*cellWidth+cellWidth/2,r*cellWidth);
-					ctx.lineTo(c*cellWidth+cellWidth/2,r*cellWidth+cellWidth);
+			case 5: if (map.array[r][c] === 0){
+					ctx.moveTo(c*map.cw+map.cw/2,r*map.cw);
+					ctx.lineTo(c*map.cw+map.cw/2,r*map.cw+map.cw);
 				} break;
 			default: break;
 		}
@@ -774,7 +1132,7 @@
 	// 			MOVEMENT
 	//
 	//===============================
-	function canMove(direction, someone){
+	function canMove (direction, someone) {
 		var colOff = 0;
 		var rowOff = 0;
 		switch (direction) {
@@ -784,21 +1142,21 @@
 			case "down": rowOff = 1; break;
 			default: break;
 		}
-		if (MapArray[someone.cellRow+rowOff][someone.cellCol+colOff] !== 0 &&
-			MapArray[someone.cellRow+rowOff][someone.cellCol+colOff] !== 5 ){
+		if (map.array[someone.cellRow+rowOff][someone.cellCol+colOff] !== 0 &&
+			map.array[someone.cellRow+rowOff][someone.cellCol+colOff] !== 5 ){
 			return true;
 		}
 		return false;
 	}
 
-	function teleport(someone){
-		if (someone.cellCol == -2 || someone.cellCol == MapArray[0].length+1){
+	function teleport (someone) {
+		if (someone.cellCol == -2 || someone.cellCol == map.array[0].length+1){
 			if (someone.cellCol == -2){
-				someone.cellCol = MapArray[0].length-1;
-				someone.x = (someone.cellCol+2) * cellWidth + (cellWidth)/2;
+				someone.cellCol = map.array[0].length-1;
+				someone.x = (someone.cellCol+2) * map.cw + (map.cw)/2;
 			} else {
 				someone.cellCol = 0;
-				someone.x = (someone.cellCol-2) * cellWidth + (cellWidth)/2;
+				someone.x = (someone.cellCol-2) * map.cw + (map.cw)/2;
 			}
 		}
 	}
