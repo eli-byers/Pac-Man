@@ -1,0 +1,23 @@
+body {
+  background-color: black;
+  padding: 15px 0 0 0;
+  text-align: center;
+}
+
+#info {
+  position: absolute;
+  top: 175px;
+}
+
+#map, #game {
+  position: absolute;
+  top: 210px;
+}
+
+#logo {
+  margin-top: 10px;
+  width: 560px;
+}
+
+#map { z-index: 0; }
+#game { z-index: 1; }
