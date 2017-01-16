@@ -28,7 +28,6 @@ var map = {
   },
   pillCount : 0,
   blink : false,
-  new: true,
   init : function(){
     this.array = copyArray(this.template);
     this.makePillLocations();
@@ -88,11 +87,8 @@ var map = {
     this.makePath(row+1, col, pathMap, n+1);
   },
   render : function(){
-	if (this.new){
-		this.new = false;
-		this.canvas.width = map.cw * this.array[0].length;
-		this.canvas.height = map.cw * this.array.length;
-	}
+	this.canvas.width = map.cw * this.array[0].length;
+	this.canvas.height = map.cw * this.array.length;
     this.context = this.canvas.getContext("2d");
     document.body.insertBefore(this.canvas, document.body.childNodes[0]);
   },
@@ -852,7 +848,7 @@ function Game (scene, map, info){
   this.spanedPink = false;
   this.spanedCyan = false;
   this.spanedOrange = false;
-  this.drawMapDots = function(){
+  this.drawMap = function(){
     var cw = this.map.cw;
     for (var i = 0; i < this.map.array.length; i++){
       for (var k = 0; k < this.map.array[i].length; k++){
@@ -974,11 +970,11 @@ Game.prototype.sounds = {
 Game.prototype.sounds.beginning    = document.getElementById("beginning");
 Game.prototype.sounds.intermission = document.getElementById("intermission");
 Game.prototype.init = function(){
+  // Play intro
   this.sounds.beginning.play();
-
   // Map
   this.map.init();
-  this.drawMapDots();
+  this.drawMap();
   this.scene.components.push(this.map.pillMap);
   // Pac-Man
   this.pacMan = new PacMan(23, 14, this);
@@ -1097,7 +1093,7 @@ Game.prototype.newGame = function(){
 };
 Game.prototype.resetMap = function(){
   this.map.init();
-  this.drawMapDots();
+  this.drawMap();
   this.pacMan.init();
   this.resetLevel();
   this.startIn(1000);
